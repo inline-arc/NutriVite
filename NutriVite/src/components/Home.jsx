@@ -1,46 +1,41 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import RecipesContext from "./context/Context";
 
 export default function Home() {
-    const [recipes, setRecipes] = useState([]);
-    const [search, setSearch] = useState("");
+    const { recipes, setSearch, search, fetchRecipes } = useContext(RecipesContext);
 
-    const fetchRecipes = async () => {
-        const recipeData = await fetch(
-            `https://api.spoonacular.com/recipes/complexSearch?apiKey=3c3f8b1563b44b6c9c5e971433d2ef16&query=${search}&number=10`
-        );
-        const recipes = await recipeData.json();
-        setRecipes(recipes.results);
-        console.log(recipes);
-    };
-
-    const fetchRecipesBySearch = (e) => {
+    const handleOnChange = (e) => {
         setSearch(e.target.value);
     };
 
-    const handleSearchSubmit = (e) => {
+    const handleOnSubmit = (e) => {
         e.preventDefault();
-        fetchRecipes();
+        fetchRecipes(); // Fetch recipes based on the current search query
     };
 
     return (
         <>
             <h1>NutriVite</h1>
-            <form onSubmit={handleSearchSubmit}>
+            <form onSubmit={handleOnSubmit}>
                 <input
                     type="text"
                     value={search}
-                    onChange={fetchRecipesBySearch}
+                    onChange={handleOnChange}
                     placeholder="Search for a recipe..."
                 />
                 <button type="submit">Search</button>
             </form>
             <div className="recipes">
-                {recipes.map((recipe) => (
-                    <div key={recipe.id} className="recipe">
-                        <h2>{recipe.title}</h2>
-                        <img src={recipe.image} alt={recipe.title} />
-                    </div>
-                ))}
+                {Array.isArray(recipes) && recipes.length > 0 ? (
+                    recipes.map((recipe) => (
+                        <div key={recipe.id} className="recipe">
+                            <h2>{recipe.title}</h2>
+                            <img src={recipe.image} alt={recipe.title} />
+                        </div>
+                    ))
+                ) : (
+                    <p>No recipes found.</p>
+                )}
             </div>
         </>
     );

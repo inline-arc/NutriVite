@@ -1,13 +1,15 @@
 import React from 'react'
-import './App.css'
 import Home from './components/Home'
+import FetchProvider from './components/context/Provider'
 
 function App() {
 
 
   return (
     <>
-     <Home />
+    <FetchProvider>
+      <Home />
+    </FetchProvider>
     </>
   )
 }
