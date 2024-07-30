@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Home from './components/Home'
 import FetchProvider from './components/context/Provider'
 

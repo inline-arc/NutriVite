@@ -30,24 +30,24 @@ export default function Home() {
                     value={search}
                     onChange={handleOnChange}
                     placeholder="Search for a recipe..."
-                    className="p-3 rounded-lg border-2 border-green-600 bg-green-100"
+                    className="p-3 rounded-lg border-2 border-green-600 bg-green-100 text-black"
                 />
                 <button type="submit" className="bg-green-100 border-green-600 border-2 text-green-600" >
                     Search
                 </button>
             </form>
         </nav>
-            <div className="recipes">
+            <div className="recipes grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
                 {Array.isArray(recipes) && recipes.length > 0 ? (
                     recipes.map((recipe) => (
-                        <div key={recipe.id} className="recipe">
-                            <h2>{recipe.title}</h2>
+                        <div key={recipe.id} className="recip recipe-card p-4 bg-neutral-700 shadow-md rounded-lg">
+                            <h2 className="text-xl font-bold mb-2">{recipe.title}</h2>
                             <h2>{}</h2>
-                            <img src={recipe.image} alt={recipe.title} />
+                            <img src={recipe.image} alt={recipe.title} className="w-full h-48 object-cover rounded-md" />
                         </div>
                     ))
                 ) : (
-                    <p>I ran out of taken maybe</p>
+                    <p className="text-center">I ran out of taken maybe</p>
                 )}
             </div>
         </>
