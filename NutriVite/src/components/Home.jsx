@@ -1,8 +1,10 @@
 import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import RecipesContext from "./context/Context";
 
 export default function Home() {
     const { recipes, setSearch, search, fetchRecipes } = useContext(RecipesContext);
+    const navigate = useNavigate();
 
     const handleOnChange = (e) => {
         setSearch(e.target.value);
@@ -20,6 +22,10 @@ export default function Home() {
         fetcData();
     }, [search]);
 
+    const handleOnClick = (id) => {
+        navigate("/blog/${id}");
+    }
+
     return (
         <>
             <nav className="bg-green-200 p-4 flex items-center space-x-10 rounded-b-2xl">
@@ -30,14 +36,14 @@ export default function Home() {
                     value={search}
                     onChange={handleOnChange}
                     placeholder="Search for a recipe..."
-                    className="p-3 rounded-lg border-2 border-green-600 bg-green-100 text-black"
+                    className="p-3 rounded-lg border-2 border-green-600 bg-green-100 text-black focus:outline-none"
                 />
                 <button type="submit" className="bg-green-100 border-green-600 border-2 text-green-600" >
                     Search
                 </button>
             </form>
         </nav>
-            <div className="recipes grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+            <div className="recipes grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6" onClick={() => handleOnClick(recipes.id)}>
                 {Array.isArray(recipes) && recipes.length > 0 ? (
                     recipes.map((recipe) => (
                         <div key={recipe.id} className="recip recipe-card p-4 bg-neutral-700 shadow-md rounded-lg">
